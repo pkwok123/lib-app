@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* #root {
+  height: "100%";
+  background-image: url("https://previews.123rf.com/images/misslina/misslina1710/misslina171000005/87673611-seamless-golden-floral-victorian-style-damask-wallpaper-pattern-this-image-is-a-vector-illustration-.jpg");
+  background-size: "cover";
+  background-repeat: "repeat";
+} */
