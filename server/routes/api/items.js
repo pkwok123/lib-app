@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
-// Item Model
 const Item = require("../../models/Item");
+
+// Item.syncIndexes();
+
+/* Item Model */
 
 // @route GET api/items
 // @desc Get All Items
@@ -26,7 +28,7 @@ router.get("/search", (req, res) => {
       .sort({ score: { $meta: "textScore" } })
       .then((item) => res.json(item));
   } else {
-    //Advance Search
+    //Advance Search: Old method can change to text query if need be
     var queryValues = Object.values(req.query);
     var queryKeys = Object.keys(req.query);
     for (x in queryValues) {
@@ -46,7 +48,7 @@ router.get("/item", (req, res) => {
   Item.findById(req.query._id).then((item) => res.json(item));
 });
 
-// @route Post api/items/item
+/*// @route Post api/items/item
 // @desc Post One Item by ID
 // @access admin
 
@@ -66,7 +68,15 @@ router.post("/", (req, res) => {
     summary: req.body.summary,
   });
 
-  newItem.save().then((item) => res.json(item));
+  newItem
+    .save()
+    .then((item) => res.json(item))
+    .catch((err) =>
+      res.status(400).json({
+        error: err,
+        message: "Error Creating Item",
+      })
+    );
 });
 
 // @route Patch api/items/:query
@@ -76,7 +86,14 @@ router.post("/", (req, res) => {
 router.patch("/", (req, res) => {
   Item.findByIdAndUpdate(req.query._id, req.body, {
     runValidators: true,
-  }).then((item) => res.json(item));
+  })
+  .then((item) => res.json(item));
+  .catch((err) =>
+      res.status(400).json({
+        error: err,
+        message: "Error Updating Item",
+      })
+    );
 });
 
 // @route Delete api/items/:query
@@ -86,8 +103,15 @@ router.patch("/", (req, res) => {
 router.delete("/", (req, res) => {
   Item.findByIdAndRemove(req.query._id, {
     runValidators: true,
-  }).then((item) => res.json(item));
-});
+  })
+  .then((item) => res.json(item));
+  .catch((err) =>
+      res.status(400).json({
+        error: err,
+        message: "Error Deleting Item",
+      })
+    );
+});*/
 
 module.exports = router;
 

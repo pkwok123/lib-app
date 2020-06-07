@@ -7,7 +7,7 @@ import { withStyles, IconButton } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles";
 //menu
 import Popper from "@material-ui/core/Popper";
-import Grow from "@material-ui/core/Grow";
+//import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuList from "@material-ui/core/MenuList";
@@ -21,7 +21,7 @@ import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutline
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-const useStyles = withStyles((theme) => ({
+const useStyles = withStyles({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -94,7 +94,7 @@ const useStyles = withStyles((theme) => ({
     color: "#000000",
     textDecoration: "none",
   },
-}));
+});
 
 class MenuListComposition extends Component {
   constructor(props) {

@@ -11,6 +11,7 @@ class HideFilterBtn extends Component {
     ) {
       return (
         <TemporaryDrawerFilter
+          filterInput={this.props.filterInput}
           handleFilterInput={this.props.handleFilterInput}
         />
       );

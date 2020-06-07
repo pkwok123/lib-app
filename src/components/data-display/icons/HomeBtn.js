@@ -12,7 +12,7 @@ const useStyles = withStyles({
 class HomeBtn extends Component {
   render() {
     const { classes } = this.props;
-    return <img src={mccLogo} className={classes.imgMccLogo} />;
+    return <img alt="mccLogo" src={mccLogo} className={classes.imgMccLogo} />;
   }
 }
 

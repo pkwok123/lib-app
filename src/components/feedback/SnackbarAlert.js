@@ -2,11 +2,11 @@ import React, { Component } from "react";
 //theme
 import theme from "../../Theme.js";
 import { withStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
 //snackbar
 import Snackbar from "@material-ui/core/Snackbar";
 //alert
 import MuiAlert from "@material-ui/lab/Alert";
+import { AlertTitle } from "@material-ui/lab/";
 
 function Alert(props) {
   return <MuiAlert variant="filled" elevation={6} {...props} />;
@@ -22,7 +22,7 @@ const useStyles = withStyles({
     width: "65vh",
   },
   fontStyle: {
-    fontFamily: theme.typography.header.fontFamily,
+    fontFamily: theme.typography.body.fontFamily,
     fontWeight: 600,
   },
 });
@@ -49,9 +49,10 @@ class SnackbarAlert extends Component {
         className={classes.anchorOriginTopCenter}
       >
         <Alert className={classes.root} severity="error">
-          <Typography variant="h6" className={classes.fontStyle}>
-            Error: Fill at least 1 field!
-          </Typography>
+          <AlertTitle className={classes.fontStyle}>
+            {this.props.errorMsg}
+          </AlertTitle>
+          {this.props.secondaryMsg}
         </Alert>
       </Snackbar>
     );

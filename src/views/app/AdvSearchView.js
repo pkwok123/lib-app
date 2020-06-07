@@ -5,22 +5,22 @@ import { withRouter } from "react-router-dom";
 import theme from "../../Theme.js";
 import {
   withStyles,
-  IconButton,
+  //IconButton,
   Button,
   Typography,
-  Menu,
-  fade,
-  TextField,
+  //Menu,
+  //fade,
+  //TextField,
 } from "@material-ui/core";
 //form
-import FilledInput from "@material-ui/core/FilledInput";
+//import FilledInput from "@material-ui/core/FilledInput";
 import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
+//import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+//import OutlinedInput from "@material-ui/core/OutlinedInput";
 import { Select } from "@material-ui/core";
-import PageviewIcon from "@material-ui/icons/Pageview";
+//import PageviewIcon from "@material-ui/icons/Pageview";
 import MenuItem from "@material-ui/core/MenuItem";
 //snackbar&alert
 import SnackbarAlert from "../../components/feedback/SnackbarAlert";
@@ -89,6 +89,7 @@ class AdvSearchView extends Component {
       publish_name: "",
       publish_year: "",
       openAlert: false,
+      errorMsg: "Error: Fill at least 1 field!",
     };
 
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -126,12 +127,12 @@ class AdvSearchView extends Component {
     } else {
       var query = "";
       var count = 0;
-      for (var i = queryValues.length - 2; i >= 0; i--) {
+      for (var i = queryValues.length - 3; i >= 0; i--) {
         queryValues[i] = queryValues[i].trim();
-        if (queryValues[i] != "" && count == 0) {
+        if (queryValues[i] !== "" && count === 0) {
           query = queryKeys[i] + "=" + queryValues[i];
           count++;
-        } else if (queryValues[i] != "" && count > 0) {
+        } else if (queryValues[i] !== "" && count > 0) {
           query = query + "&" + queryKeys[i] + "=" + queryValues[i];
         }
       }
@@ -163,6 +164,7 @@ class AdvSearchView extends Component {
       <div className={classes.container}>
         <SnackbarAlert
           openAlert={this.state.openAlert}
+          errorMsg={this.state.errorMsg}
           handleAlertClose={this.handleAlertClose}
         />
         <div className={classes.containerForm}>
@@ -320,36 +322,34 @@ class AdvSearchView extends Component {
 
 export default useStyles(withRouter(AdvSearchView));
 
-{
-  /* Fix? Overriding the autofill highlight color with WebkitBoxShadow but it covers the label text
+//  Fix? Overriding the autofill highlight color with WebkitBoxShadow but it covers the label text
 
-    inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    "&:-internal-autofill-selected": {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-  input: {
-    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.primary.main} inset`,
-  },
-  
-  <FormControl>
-<InputLabel htmlFor="isbn" className={classes.fontStyle}>
-  ISBN
-</InputLabel>
-<Input
-  placeholder="ISBN"
-  id="isbn"
-  value={isbn}
-  onChange={this.handleFormChange}
-  classes={{
-    root: classes.inputRoot,
-    input: classes.inputInput,
-  }}
-  inputProps={{ className: classes.input }}
-  className={classes.fontStyle}
-/>
-</FormControl> */
-}
+//     inputRoot: {
+//     color: "inherit",
+//   },
+//   inputInput: {
+//     "&:-internal-autofill-selected": {
+//       backgroundColor: theme.palette.primary.main,
+//     },
+//   },
+//   input: {
+//     WebkitBoxShadow: `0 0 0 1000px ${theme.palette.primary.main} inset`,
+//   },
+
+//   <FormControl>
+// <InputLabel htmlFor="isbn" className={classes.fontStyle}>
+//   ISBN
+// </InputLabel>
+// <Input
+//   placeholder="ISBN"
+//   id="isbn"
+//   value={isbn}
+//   onChange={this.handleFormChange}
+//   classes={{
+//     root: classes.inputRoot,
+//     input: classes.inputInput,
+//   }}
+//   inputProps={{ className: classes.input }}
+//   className={classes.fontStyle}
+// />
+// </FormControl>

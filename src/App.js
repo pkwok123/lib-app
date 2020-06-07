@@ -25,6 +25,7 @@ import NotificationView from "./views/app/NotificationView";
 import ProfileView from "./views/app/ProfileView.js";
 import SearchView from "./views/app/SearchView";
 import SettingsView from "./views/app/SettingsView.js";
+import NoMatchView from "./views/app/NoMatchView.js";
 
 const useStyles = withStyles({
   containerApp: {
@@ -88,12 +89,13 @@ class App extends Component {
       errorSearch: null,
       errorItem: null,
       searchInput: "",
-      filterInput: ["relevance", "book", "module"],
+      filterInput: ["relevance", "all", "module"],
       fetchedItems: [],
       fetchedItem: {},
       sortedTypeItems: [],
       sortedA_ZItems: [],
       searchItems: [],
+      shouldAnimate: true,
     };
 
     this.handleSearchInput = this.handleSearchInput.bind(this);
@@ -108,53 +110,62 @@ class App extends Component {
       this.state.searchInput !== passSearchInput &&
       passSearchInput !== null
     ) {
-      this.setState({ searchInput: passSearchInput }, () => {
-        console.log(this.state.searchInput);
-        fetch(`/api/items${this.state.searchInput}`)
-          .then((res) => res.json())
-          .then(
-            (result) => {
-              this.setState(
-                {
-                  isLoadedSearch: true,
-                  fetchedItems: result,
-                },
-                () => {
-                  const sortA_Z = this.sortA_Z(
-                    this.state.fetchedItems,
-                    this.state.filterInput[0]
-                  );
-                  this.setState({ sortedA_ZItems: sortA_Z }, () => {
-                    const sortType = this.sortType(
-                      this.state.sortedA_ZItems,
-                      this.state.filterInput[1]
+      this.setState(
+        {
+          searchInput: passSearchInput,
+          isLoadedSearch: false,
+          errorSearch: null,
+          shouldAnimate: true,
+        },
+        () => {
+          fetch(`/api/items${this.state.searchInput}`)
+            .then((res) => res.json())
+            .then(
+              (result) => {
+                this.setState(
+                  {
+                    isLoadedSearch: true,
+                    fetchedItems: result,
+                  },
+                  () => {
+                    const sortA_Z = this.sortA_Z(
+                      this.state.fetchedItems,
+                      this.state.filterInput[0]
                     );
-                    this.setState({
-                      sortedTypeItems: sortType,
-                      searchItems: sortType,
+                    this.setState({ sortedA_ZItems: sortA_Z }, () => {
+                      const sortType = this.sortType(
+                        this.state.sortedA_ZItems,
+                        this.state.filterInput[1]
+                      );
+                      this.setState({
+                        sortedTypeItems: sortType,
+                        searchItems: sortType,
+                      });
                     });
-                  });
-                }
-              );
-            },
-            (errorSearch) => {
-              this.setState({
-                isLoadedSearch: true,
-                errorSearch,
-              });
-            }
-          );
-      });
+                  }
+                );
+              },
+              (errorSearch) => {
+                this.setState({
+                  isLoadedSearch: true,
+                  errorSearch,
+                });
+              }
+            );
+        }
+      );
     }
   }
 
   handleItemFetch(itemID) {
+    this.setState({ shouldAnimate: false });
     const fetched = this.state.fetchedItems.filter(
       (item) => item._id === itemID
     );
-    if (fetched.length != 0) {
+    if (fetched.length !== 0) {
       this.setState({ fetchedItem: fetched[0] });
     } else {
+      //If single item is loaded as the first page of the history stack
       fetch(`/api/items/item?_id=${itemID}`)
         .then((res) => res.json())
         .then(
@@ -169,6 +180,12 @@ class App extends Component {
   }
 
   handleFilterInput(passFilterInput) {
+    if (
+      this.state.filterInput[1] !== passFilterInput[1] ||
+      this.state.filterInput[2] !== passFilterInput[2]
+    ) {
+      this.setState({ shouldAnimate: true });
+    }
     //fix? optimize? by filter
     if (this.state.filterInput !== passFilterInput) {
       this.setState({ filterInput: passFilterInput }, () => {
@@ -194,10 +211,10 @@ class App extends Component {
 
   sortA_Z(items, sortValue) {
     if (sortValue === "ratingAmazon" || sortValue === "ratingMcc") {
-      var rating = "rating";
-      var value = "mcc";
+      let rating = "rating";
+      let value = "mcc";
       if (sortValue === "ratingAmazon") {
-        var value = "amazon";
+        value = "amazon";
       }
       return [...items].sort((a, b) => {
         var varA = a[rating][value];
@@ -263,7 +280,10 @@ class App extends Component {
                   </Link>
                 </div>
               </div>
-              <HideFilterBtn handleFilterInput={this.handleFilterInput} />
+              <HideFilterBtn
+                filterInput={this.state.filterInput}
+                handleFilterInput={this.handleFilterInput}
+              />
               <Link to="/cart">
                 <CartBtn />
               </Link>
@@ -279,12 +299,13 @@ class App extends Component {
                 render={(props) => (
                   <SearchView
                     {...props}
+                    isLoadedSearch={this.state.isLoadedSearch}
+                    errorSearch={this.state.errorSearch}
                     passItems={this.state.searchItems}
-                    passFetchedItems={this.state.fetchedItems}
-                    passFilterValueRelevance={this.state.filterInput[0]}
                     toggleViewValue={this.state.filterInput[2]}
                     currentSearchInput={this.state.searchInput}
                     getItems={this.handleSearchInput}
+                    shouldAnimate={this.state.shouldAnimate}
                   />
                 )}
               ></Route>
@@ -298,11 +319,14 @@ class App extends Component {
                 path={`/item`}
                 render={(props) => (
                   <ItemView
+                    {...props}
                     passItem={this.state.fetchedItem}
                     getItemID={this.handleItemFetch}
+                    errorItem={this.state.errorItem}
                   />
                 )}
               />
+              <Route component={NoMatchView} />
             </Switch>
           </div>
         </div>

@@ -38,7 +38,7 @@ class TemporaryDrawerFilter extends Component {
     this.state = {
       isOpen: false,
       sortA_ZValue: "relevance",
-      sortTypeValue: "book",
+      sortTypeValue: "all",
       searchViewValue: "module",
     };
 
@@ -56,7 +56,7 @@ class TemporaryDrawerFilter extends Component {
 
   handleChange(event, viewValue) {
     if (viewValue === undefined) {
-      viewValue = this.state.searchViewValue;
+      viewValue = this.props.filterInput[2];
     }
     this.setState(
       {
@@ -101,7 +101,7 @@ class TemporaryDrawerFilter extends Component {
               </InputLabel>
               <Select
                 native
-                value={this.state.sortA_ZValue}
+                value={this.props.filterInput[0]}
                 onChange={this.handleChange}
                 label="Sort"
                 inputProps={{
@@ -123,7 +123,7 @@ class TemporaryDrawerFilter extends Component {
               </InputLabel>
               <Select
                 native
-                value={this.state.sortTypeValue}
+                value={this.props.filterInput[1]}
                 onChange={this.handleChange}
                 label="Type"
                 inputProps={{
@@ -141,7 +141,7 @@ class TemporaryDrawerFilter extends Component {
             </FormControl>
             <div className={classes.toggleContainer}>
               <ToggleButtonGroup
-                value={this.state.searchViewValue}
+                value={this.props.filterInput[2]}
                 name="searchViewValue"
                 exclusive
                 onChange={this.handleChange}

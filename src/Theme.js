@@ -22,7 +22,7 @@ const Theme = createMuiTheme({
   },
   background: {
     image: `url("https://previews.123rf.com/images/misslina/misslina1710/misslina171000005/87673611-seamless-golden-floral-victorian-style-damask-wallpaper-pattern-this-image-is-a-vector-illustration-.jpg")`,
-    size: "cover",
+    size: "100%",
     repeat: "repeat",
   },
 });

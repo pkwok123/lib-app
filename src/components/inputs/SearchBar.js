@@ -15,21 +15,11 @@ const useStyles = withStyles({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
       width: "auto",
     },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   inputRoot: {
     color: "inherit",
@@ -80,9 +70,6 @@ class AppBarAppSearch extends Component {
     return (
       <div className={classes.search}>
         <form onSubmit={this.handleSubmitBtn}>
-          {/* <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div> */}
           <Input
             className={classes.fontStylePrimary}
             placeholder="Search…"
@@ -90,13 +77,6 @@ class AppBarAppSearch extends Component {
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
-            // InputProps={{
-            //   startAdornment: (
-            //     <InputAdornment position="start">
-            //       <SearchIcon />
-            //     </InputAdornment>
-            //   ),
-            // }}
             required={true}
             value={this.state.inputValue}
             onChange={this.handleInputValue}
