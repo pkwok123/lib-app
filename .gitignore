@@ -6,7 +6,7 @@
 .pnp.js
 
 #dev
-/config
+/config/keys_dev.js
 /src/components/templateMaterialUI.txt
 /src/test
 app.css
