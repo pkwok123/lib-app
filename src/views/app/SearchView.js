@@ -74,7 +74,6 @@ class SearchView extends Component {
             shouldAnimate={this.props.shouldAnimate}
           />
         )}
-        }
       </div>
     );
   }
